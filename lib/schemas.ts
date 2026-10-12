@@ -10,6 +10,47 @@ export interface SearchPlan {
   semanticSummary: string;
 }
 
+export interface RankedItem {
+  id: number;
+  matchExplanation: string;
+}
+
+export function validateRankedList(data: unknown, allowedIds: Set<number>): RankedItem[] {
+  if (!data || typeof data !== "object") {
+    return [];
+  }
+
+  const obj = data as Record<string, unknown>;
+  const list = Array.isArray(obj.ranked)
+    ? obj.ranked
+    : Array.isArray(data)
+    ? data
+    : [];
+
+  const results: RankedItem[] = [];
+  const seen = new Set<number>();
+
+  for (const item of list) {
+    if (!item || typeof item !== "object") continue;
+    const r = item as Record<string, unknown>;
+    const rawId = typeof r.id === "number" ? r.id : parseInt(String(r.id), 10);
+    if (isNaN(rawId)) continue;
+
+    // Discard any fabricated ID not present in the candidate pool
+    if (!allowedIds.has(rawId) || seen.has(rawId)) continue;
+    seen.add(rawId);
+
+    const matchExplanation =
+      typeof r.matchExplanation === "string" && r.matchExplanation.trim()
+        ? r.matchExplanation.trim()
+        : "Matches your query criteria.";
+
+    results.push({ id: rawId, matchExplanation });
+  }
+
+  return results;
+}
+
 export function validateSearchPlan(data: unknown): SearchPlan {
   if (!data || typeof data !== "object") {
     return createDefaultSearchPlan();

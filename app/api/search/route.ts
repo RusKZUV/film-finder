@@ -3,6 +3,7 @@ import type { Movie, SearchResponse } from "@/types/movie";
 import { getTMDBClient } from "@/lib/tmdb";
 import { interpretQuery } from "@/lib/query-parser";
 import { retrieveCandidates } from "@/lib/candidate-retrieval";
+import { rankCandidates } from "@/lib/ranking";
 
 const MOCK_MOVIES: Movie[] = [
   {
@@ -88,13 +89,19 @@ export async function POST(request: Request): Promise<Response> {
       const plan = await interpretQuery(query, filters);
       querySummary = plan.semanticSummary || querySummary;
 
-      results = await retrieveCandidates(tmdbClient, plan, maxResults);
-      source = "tmdb-discover";
+      const candidates = await retrieveCandidates(tmdbClient, plan, 30);
+      let initialCandidates = candidates;
 
-      if (results.length === 0) {
-        // Broad search fallback
-        results = await tmdbClient.searchMovies(query.trim(), maxResults);
-        source = "tmdb-text";
+      if (initialCandidates.length === 0) {
+        initialCandidates = await tmdbClient.searchMovies(query.trim(), 30);
+      }
+
+      if (process.env.OPENAI_API_KEY) {
+        results = await rankCandidates(query.trim(), initialCandidates, maxResults);
+        source = "tmdb+llm-ranked";
+      } else {
+        results = initialCandidates.slice(0, maxResults);
+        source = "tmdb-discover";
       }
     } catch {
       results = MOCK_MOVIES.slice(0, maxResults);
