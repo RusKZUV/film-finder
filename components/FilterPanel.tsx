@@ -38,12 +38,20 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
   };
 
   return (
-    <div className="bg-zinc-800/80 border border-zinc-700/80 rounded-lg p-5 space-y-4">
+    <div
+      role="region"
+      aria-label="Search filter controls"
+      className="bg-zinc-800/90 border border-zinc-700/80 rounded-lg p-5 space-y-5"
+    >
       <div>
-        <label className="block text-sm font-medium text-zinc-300 mb-2">
-          Genres
-        </label>
-        <div className="flex flex-wrap gap-2">
+        <span id="genres-label" className="block text-sm font-medium text-zinc-200 mb-2.5">
+          Filter by Genre
+        </span>
+        <div
+          role="group"
+          aria-labelledby="genres-label"
+          className="flex flex-wrap gap-2.5"
+        >
           {COMMON_GENRES.map((genre) => {
             const isSelected = filters.genres.includes(genre);
             return (
@@ -51,10 +59,11 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
                 key={genre}
                 type="button"
                 onClick={() => toggleGenre(genre)}
-                className={`px-3 py-1 text-xs rounded-full border transition-colors ${
+                aria-pressed={isSelected}
+                className={`min-h-[44px] min-w-[44px] px-3.5 py-2 text-xs rounded-full border transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-900 ${
                   isSelected
-                    ? "bg-amber-500 text-zinc-950 border-amber-500 font-semibold"
-                    : "bg-zinc-900/60 text-zinc-300 border-zinc-700 hover:border-zinc-500"
+                    ? "bg-amber-500 text-zinc-950 border-amber-500 font-semibold shadow-sm"
+                    : "bg-zinc-900/80 text-zinc-300 border-zinc-700 hover:border-zinc-500"
                 }`}
               >
                 {genre}
@@ -66,7 +75,7 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div>
-          <label htmlFor="year-from" className="block text-sm font-medium text-zinc-300 mb-1">
+          <label htmlFor="year-from" className="block text-sm font-medium text-zinc-300 mb-1.5">
             Year From
           </label>
           <input
@@ -82,12 +91,12 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
                 yearFrom: e.target.value ? Number(e.target.value) : undefined,
               })
             }
-            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-md text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full min-h-[44px] px-3.5 py-2 bg-zinc-900 border border-zinc-700 rounded-md text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
           />
         </div>
 
         <div>
-          <label htmlFor="year-to" className="block text-sm font-medium text-zinc-300 mb-1">
+          <label htmlFor="year-to" className="block text-sm font-medium text-zinc-300 mb-1.5">
             Year To
           </label>
           <input
@@ -103,12 +112,12 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
                 yearTo: e.target.value ? Number(e.target.value) : undefined,
               })
             }
-            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-md text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full min-h-[44px] px-3.5 py-2 bg-zinc-900 border border-zinc-700 rounded-md text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
           />
         </div>
 
         <div>
-          <label htmlFor="min-rating" className="block text-sm font-medium text-zinc-300 mb-1">
+          <label htmlFor="min-rating" className="block text-sm font-medium text-zinc-300 mb-1.5">
             Minimum Rating (0 - 10)
           </label>
           <input
@@ -125,7 +134,7 @@ export default function FilterPanel({ filters, onChange }: FilterPanelProps) {
                 minRating: e.target.value ? Number(e.target.value) : undefined,
               })
             }
-            className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-md text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-1 focus:ring-amber-500"
+            className="w-full min-h-[44px] px-3.5 py-2 bg-zinc-900 border border-zinc-700 rounded-md text-zinc-100 placeholder-zinc-500 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-1 focus:ring-offset-zinc-900"
           />
         </div>
       </div>

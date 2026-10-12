@@ -46,10 +46,16 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape" && showFilters) {
+      setShowFilters(false);
+    }
+  };
+
   return (
-    <div className="w-full max-w-3xl mx-auto space-y-4">
+    <div className="w-full max-w-3xl mx-auto space-y-4" onKeyDown={handleKeyDown}>
       <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="relative flex flex-col sm:flex-row gap-2">
+        <div className="relative flex flex-col sm:flex-row gap-2.5">
           <label htmlFor="movie-search-input" className="sr-only">
             Search movies in natural language
           </label>
@@ -62,7 +68,7 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
               if (errorMessage) setErrorMessage("");
             }}
             placeholder="e.g. A clever sci-fi mystery with a twist, under two hours"
-            className="flex-1 px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="flex-1 min-h-[44px] px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-zinc-100 placeholder-zinc-400 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
             disabled={isLoading}
           />
           <button
@@ -70,14 +76,14 @@ export default function SearchBar({ onSearch, isLoading = false }: SearchBarProp
             onClick={() => setShowFilters((prev) => !prev)}
             aria-expanded={showFilters}
             aria-controls="filter-panel"
-            className="px-4 py-3 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg text-sm text-zinc-300 font-medium transition-colors"
+            className="min-h-[44px] px-4 py-3 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 rounded-lg text-sm text-zinc-300 font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
           >
             {showFilters ? "Hide Filters" : "Filters"}
           </button>
           <button
             type="submit"
             disabled={isLoading}
-            className="px-6 py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-zinc-950 font-semibold rounded-lg transition-colors"
+            className="min-h-[44px] px-6 py-3 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-zinc-950 font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
           >
             {isLoading ? "Searching..." : "Search"}
           </button>
