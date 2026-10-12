@@ -1,6 +1,7 @@
 "use client";
 
 import type { Movie } from "@/types/movie";
+import WatchlistButton from "./WatchlistButton";
 
 interface MovieCardProps {
   movie: Movie;
@@ -65,9 +66,11 @@ export default function MovieCard({ movie, matchExplanation }: MovieCardProps) {
 
       {/* Info */}
       <div className="flex flex-col flex-1 p-4 gap-2">
-        <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm leading-snug line-clamp-2">
-          {title}
-        </h3>
+        <div className="flex items-start justify-between gap-2">
+          <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-sm leading-snug line-clamp-2 flex-1">
+            {title}
+          </h3>
+        </div>
 
         <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
           {year && <span>{year}</span>}
@@ -110,6 +113,10 @@ export default function MovieCard({ movie, matchExplanation }: MovieCardProps) {
             {truncatedOverview}
           </p>
         )}
+
+        <div className="pt-2 mt-auto border-t border-gray-100 dark:border-gray-700/60">
+          <WatchlistButton movie={movie} />
+        </div>
       </div>
     </article>
   );
