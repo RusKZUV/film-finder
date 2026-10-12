@@ -1,0 +1,887 @@
+
+I want to build an app for finding movies based on queries that interest you.
+
+Help me define the scope of this project precisely. I want to brainstorm with you and understand how the tool should work. Give me options.
+
+Ask me one question at a time and keep your output short.
+Let's define the app step by step, starting with its main purpose.
+
+Question 1: How should users search for movies?
+
+Choose the option closest to your idea:
+
+
+A. Search by natural language
+
+“Movies where the main character is trapped in a time loop.”
+
+
+B. Search using filters
+
+Genre, year, rating, language, actors, and duration.
+
+
+C. Both — AI-powered search
+
+Describe what interests you, then refine results with filters.
+
+
+D. Something different
+
+I have another approach in mind.
+
+For my movie discovery app, search approach: C — hybrid AI search and filters. Ask me the next scope question.
+Question 2: Where should the app get its movie data?
+
+Choose one:
+
+
+A. Existing movie databases
+
+Use an API to get movie titles, posters, genres, ratings, and descriptions. Faster to build.
+
+
+B. Your own movie database
+
+Build and maintain a custom collection with your own tags and descriptions.
+
+
+C. Both
+
+Use an external API and add custom tags to improve semantic search.
+
+For my movie discovery app, movie data source: A — existing movie database API. Ask me the next scope question.
+Question 3: How should AI understand the user's query?
+
+For example: “I want a movie that feels like Inception, with mystery and a surprising ending.”
+
+
+A. Semantic search
+
+Find movies by meaning, themes, mood, plot, and similarities — not just matching keywords.
+
+
+B. AI reasoning
+
+An LLM interprets the request, extracts preferences, and ranks matching movies.
+
+
+C. Both
+
+Semantic retrieval finds candidates; an LLM reranks them against the user's intent.
+
+For my movie discovery app, query understanding: B — LLM reasoning and ranking. Ask me the next scope question.
+Question 4: What should users see in the search results?
+
+Choose the main experience:
+
+
+A. Simple movie cards
+
+Poster, title, year, genre, and rating.
+
+
+B. AI explanations
+
+Movie cards plus why each movie matches the user's query.
+
+
+C. Conversational discovery
+
+Users can say “something darker” or “less action” to refine results.
+
+
+D. All three
+
+Cards, explanations, and conversational refinement.
+
+For my movie discovery app, search results experience: B — movie cards with AI explanations. Ask me the next scope question.
+Question 5: Which features belong in the first version (MVP)?
+
+Choose what users can do beyond searching and viewing AI explanations.
+
+
+A. Search only
+
+Search, filter, view movie cards, and read explanations. No accounts.
+
+
+B. Personal watchlist
+
+Save movies to watch later, with minimal account functionality.
+
+
+C. Personalized recommendations
+
+Watchlist, ratings, user preferences, and recommendations based on past activity.
+
+
+D. Full platform
+
+Profiles, watchlists, recommendations, and social features.
+
+For my movie discovery app MVP, feature scope: B — search plus personal watchlist. Ask me the next scope question.
+Question 6: Which movie database API should we use?
+
+This determines where the app gets movie information, posters, ratings, and plot summaries.
+
+
+A. TMDB API
+
+Large movie database, posters, genres, descriptions, and ratings. Good starting point.
+
+
+B. OMDb API
+
+Simple API with IMDb-linked ratings, plot summaries, and movie details.
+
+
+C. Decide later
+
+Keep the data source replaceable until we define the technical architecture.
+
+For my movie discovery app, AI ranking strategy: A — balanced relevance. Ask me the next scope question.
+Question 10: Which AI model approach should power movie search?
+
+This affects cost, speed, and the quality of recommendations.
+
+
+A. Hosted LLM API
+
+Use a model through an API to interpret queries and rank movies. Easiest MVP approach.
+
+
+B. Run an AI model locally
+
+More control, but requires more setup and computing resources.
+
+
+C. Hybrid architecture
+
+Use a hosted LLM initially, with an architecture that allows other models later.
+
+For my movie discovery app, AI deployment approach: A — hosted LLM API. Ask me the next scope question.
+Question 11: Which filters should the MVP support?
+
+Choose how much control users should have after entering their natural-language query.
+
+
+A. Basic filters
+
+Genre, release year, and minimum rating.
+
+
+B. Standard filters
+
+Genre, year range, rating, language, runtime, and movie type.
+
+
+C. Advanced filters
+
+Standard filters plus actors, directors, keywords, and country.
+
+For my movie discovery app, MVP filters: B — genre, year range, rating, language, runtime, movie type. Ask me the next scope question.
+Question 12: How should the app find candidate movies before the LLM ranks them?
+
+This is important because the AI can only rank movies it receives.
+
+
+A. TMDB discovery + search
+
+Fetch movies using TMDB filters and keyword search, then let the LLM rank them. Simpler MVP.
+
+
+B. Build a searchable movie catalog
+
+Import movie metadata into your own database so the AI can search a larger local catalog.
+
+
+C. Combine both
+
+Use a local catalog for relevance and TMDB for current details and missing metadata.
+
+For my movie discovery app, candidate retrieval: A — TMDB discovery and search, then LLM ranking. Ask me the next scope question.
+Question 13: How many movie results should each search return?
+
+
+A. 10 movies — concise, carefully ranked results.
+
+
+B. 20 movies — a good balance between choice and relevance.
+
+
+C. 50+ movies — broader discovery with pagination.
+
+For my movie discovery app, initial results per search: 20 movies. Ask me the next scope question.
+
+
+Question 16: How should the app explain its movie recommendations?
+The AI will show why each movie matches the user's query. How detailed should those explanations be?
+A. Short explanationOne sentence per movie. Fast and easy to scan.B. Specific explanationTwo or three sentences connecting the movie's plot, themes, or mood to the query.C. Detailed breakdownExplain individual matching factors and identify where the movie may not fit.Continue
+
+
+
+i think it enough so output the full plan as a single markdown code block in the chat
+# Movie Discovery App — Project Plan
+
+## 1. Project Overview
+
+Build a web application that helps users discover movies based on their interests, ideas, moods, plot preferences, and natural-language queries.
+
+Users describe what they want to watch. An AI interprets the request, finds relevant movies, ranks them, and explains why each movie is a good match.
+
+The goal is to make movie discovery more intuitive than traditional searches based only on titles, genres, or keywords.
+
+## 2. Project Scope — MVP
+
+The first version will include:
+
+- Natural-language movie search.
+- AI-powered query interpretation and ranking.
+- Integration with The Movie Database (TMDB) API.
+- Movie filters.
+- Search results displaying 20 movies.
+- AI-generated explanations for recommendations.
+- Personal watchlist stored locally in the browser.
+- Responsive web interface.
+- No user accounts or social features.
+
+The MVP will focus on discovering movies rather than building a complete movie community or streaming platform.
+
+## 3. Target Users
+
+People who:
+- Want to discover movies based on specific interests.
+- Know what kind of experience they want but not which movie to watch.
+- Prefer recommendations based on plots, themes, moods, and ideas.
+- Want alternatives to conventional genre-based search.
+- Appreciate explanations behind recommendations.
+
+Example users' queries:
+
+- "Movies about time loops with a surprising ending."
+- "Something similar to Inception but less action-oriented."
+- "Psychological thrillers with unreliable narrators."
+- "Movies about artificial intelligence questioning humanity."
+- "A relaxing, feel-good movie for tonight."
+- "Movies where enemies gradually become friends."
+
+## 4. Core User Journey
+
+1. The user opens the application.
+2. The user enters a natural-language query.
+3. The user optionally adjusts filters.
+4. The backend interprets the query using an LLM.
+5. The backend retrieves candidate movies from TMDB.
+6. The LLM ranks the candidates by relevance.
+7. The application displays 20 ranked results.
+8. Each result includes movie information and an AI-generated explanation.
+9. The user can refine the query or adjust filters.
+10. The user can save interesting movies to a personal watchlist.
+11. The watchlist remains available in the same browser.
+
+## 5. Search and Query Understanding
+
+### Input
+
+Provide a search field that accepts natural-language descriptions rather than requiring exact movie titles.
+
+### AI interpretation
+
+The LLM should identify relevant aspects of the request, such as:
+
+- Themes and concepts.
+- Plot elements.
+- Mood and atmosphere.
+- Character types and relationships.
+- Narrative devices.
+- Similarity to reference movies.
+- Explicit preferences and exclusions.
+
+The LLM should distinguish between strict requirements and softer preferences when possible.
+
+For example:
+
+Query:
+"I want a science-fiction movie about time travel, with a mysterious atmosphere and little violence."
+
+The interpreted preferences might be:
+
+- Genre: science fiction.
+- Theme: time travel.
+- Mood: mysterious.
+- Preference: low violence.
+- Ranking priority: strong thematic and tonal match.
+
+### Vague queries
+
+The application should search immediately rather than requiring clarification.
+
+For vague requests, the AI should make reasonable assumptions and return a varied set of relevant recommendations.
+
+## 6. Movie Data Source
+
+Use the TMDB API as the external movie data provider.
+
+Retrieve available information such as:
+
+- Movie title.
+- Original title.
+- Release date and year.
+- Overview or plot summary.
+- Poster and backdrop images.
+- Genre information.
+- Original language.
+- Runtime, when available.
+- Movie type.
+- TMDB rating and vote count.
+- Movie identifier.
+
+Use TMDB discovery and search endpoints to retrieve candidate movies.
+
+Apply available structured filters through the API where appropriate.
+
+Important limitation:
+TMDB's search and discovery endpoints do not directly understand every abstract concept, mood, or narrative preference. Candidate retrieval must therefore be broad enough to give the LLM useful alternatives to rank.
+
+The MVP should use TMDB rather than importing and maintaining a separate movie catalog.
+
+## 7. Candidate Retrieval and AI Ranking
+
+Use a two-stage search process.
+
+### Stage 1: Candidate retrieval
+
+The backend should:
+
+1. Receive the user's query and filters.
+2. Extract structured preferences using the LLM.
+3. Translate applicable preferences into TMDB search and discovery parameters.
+4. Retrieve candidate movies from TMDB.
+5. Combine and deduplicate results.
+6. Gather sufficient movie metadata for ranking.
+
+Retrieve more candidates than the 20 movies ultimately displayed, subject to practical API and latency limits.
+
+### Stage 2: LLM ranking
+
+The LLM evaluates candidate movies against the user's intent.
+
+Ranking factors may include:
+
+- Plot relevance.
+- Theme relevance.
+- Mood and atmosphere.
+- Character and relationship relevance.
+- Narrative similarities.
+- Explicit requirements.
+- Structured filter compatibility.
+
+Use balanced relevance rather than strict matching or unrestricted diversity.
+
+The AI should prioritize strong matches while retaining some variety.
+
+The LLM must rank only movies present in the retrieved candidate set. It must not invent movie titles, plot details, ratings, or other factual information.
+
+If metadata is insufficient to establish a match, the system should avoid unsupported claims.
+
+## 8. Search Filters
+
+Provide the following filters in the MVP:
+
+- Genre.
+- Release year range.
+- Minimum rating.
+- Language.
+- Runtime.
+- Movie type.
+
+The interface should allow users to combine natural-language queries with structured filters.
+
+Filters must remain authoritative constraints where applicable. The LLM should not promote a movie that violates an explicitly selected filter.
+
+Only offer filters that TMDB can support reliably or that can be validated against returned metadata.
+
+## 9. Search Results
+
+Each search should return up to 20 ranked movies when sufficient candidates are available.
+
+Display results in a responsive grid of movie cards.
+
+Each card should contain:
+
+- Poster.
+- Movie title.
+- Release year.
+- Genre.
+- Rating.
+- Runtime, when available.
+- Short plot overview.
+- AI-generated explanation of relevance.
+
+The explanation should connect actual movie details to the user's query rather than provide generic praise.
+
+Example:
+
+User query:
+"Movies about time loops with a surprising ending."
+
+Example explanation:
+"This film explores repeated events and the consequences of trying to change the future. Its mystery-driven structure makes it a promising match for your interest in time loops."
+
+The example is illustrative, not a factual recommendation for a particular movie.
+
+The application should communicate when fewer than 20 suitable results are available rather than inventing additional matches.
+
+## 10. Personal Watchlist
+
+Allow users to save movies to a watchlist without creating an account.
+
+Features:
+
+- Add a movie to the watchlist.
+- Remove a saved movie.
+- View saved movies on a dedicated page or section.
+- Prevent duplicate entries.
+- Preserve the watchlist between browser sessions.
+
+Use browser local storage for persistence.
+
+Store the minimum information needed, preferably TMDB movie IDs and essential display metadata.
+
+When rendering saved movies, handle deleted, unavailable, or changed metadata gracefully.
+
+Limitations:
+The watchlist will not synchronize between devices or browsers. Clearing browser data may remove saved movies.
+
+## 11. User Interface
+
+### Main page
+
+Include:
+
+- Application name and navigation.
+- Prominent natural-language search field.
+- Search button.
+- Filter controls.
+- Example queries for new users.
+- Optional link to the watchlist.
+
+### Results page or results section
+
+Include:
+
+- Original search query.
+- Active filters.
+- Number of returned results.
+- Movie card grid.
+- Ranking explanations.
+- Loading indicators.
+- Empty and error states.
+- A way to edit the query and search again.
+
+### Watchlist
+
+Include:
+
+- Saved movie cards.
+- Remove controls.
+- Empty-state message.
+- Navigation back to search.
+
+### Design principles
+
+- Responsive layout for desktop and mobile browsers.
+- Clear typography and readable movie cards.
+- Poster-focused presentation.
+- Accessible controls.
+- Simple loading and error feedback.
+- Avoid unnecessary animations and complex navigation in the MVP.
+
+## 12. Technical Architecture
+
+Use a frontend, backend, and external API architecture.
+
+### Frontend
+
+Responsibilities:
+
+- Search input and filter controls.
+- Results display.
+- AI explanation display.
+- Watchlist interface.
+- Browser-local persistence.
+- Loading, validation, and error states.
+
+Suggested technologies:
+- React.
+- TypeScript.
+- Next.js.
+- Tailwind CSS.
+
+### Backend
+
+Responsibilities:
+
+- Receive and validate search requests.
+- Interpret queries with the LLM.
+- Retrieve candidate movies from TMDB.
+- Normalize and deduplicate metadata.
+- Rank candidates using the LLM.
+- Validate returned movie identifiers.
+- Generate or validate explanations.
+- Enforce request limits and timeouts.
+- Handle errors and external API failures.
+
+Suggested technology:
+- Next.js server-side API routes using TypeScript.
+
+### External services
+
+1. TMDB API for movie metadata and candidate retrieval.
+2. A hosted LLM API for query interpretation, ranking, and explanations.
+
+The backend must call the LLM provider. Do not expose the LLM API key in browser code.
+
+Keep API integrations isolated behind service modules so that the providers can be replaced later.
+
+## 13. Data Flow
+
+User query and filters
+    ↓
+Frontend validation
+    ↓
+Backend search endpoint
+    ↓
+LLM query interpretation
+    ↓
+TMDB candidate retrieval
+    ↓
+Candidate normalization and deduplication
+    ↓
+LLM relevance ranking
+    ↓
+Validation against retrieved movie IDs
+    ↓
+Attach movie metadata and explanations
+    ↓
+Return ranked results
+    ↓
+Display results to the user
+    ↓
+User optionally saves a movie locally
+
+The browser watchlist should operate independently of the search-ranking pipeline.
+
+## 14. Suggested API Design
+
+### POST /api/search
+
+Purpose:
+Search for movies using natural-language queries and optional filters.
+
+Example request:
+
+{
+  "query": "Science-fiction movies about time travel",
+  "filters": {
+    "genres": [],
+    "yearFrom": 2000,
+    "yearTo": 2026,
+    "minRating": 6.5,
+    "language": "en",
+    "minRuntime": null,
+    "maxRuntime": 180,
+    "movieType": "movie"
+  }
+}
+
+Example response structure:
+
+{
+  "query": "Science-fiction movies about time travel",
+  "results": [
+    {
+      "tmdbId": 123,
+      "title": "Example Movie",
+      "year": 2020,
+      "posterPath": "/example.jpg",
+      "rating": 7.2,
+      "genres": ["Science Fiction"],
+      "explanation": "Example explanation based on verified movie metadata."
+    }
+  ],
+  "totalReturned": 1
+}
+
+The example data is illustrative only.
+
+Actual responses should follow a documented TypeScript schema. Validate all incoming requests and model outputs before returning data to the frontend.
+
+### Watchlist persistence
+
+No watchlist backend endpoint is required for the MVP.
+
+The browser manages local watchlist persistence.
+
+## 15. Suggested Project Structure
+
+movie-discovery/
+├── app/
+│   ├── page.tsx
+│   ├── watchlist/
+│   │   └── page.tsx
+│   └── api/
+│       └── search/
+│           └── route.ts
+├── components/
+│   ├── SearchBar.tsx
+│   ├── FilterPanel.tsx
+│   ├── MovieGrid.tsx
+│   ├── MovieCard.tsx
+│   ├── MovieExplanation.tsx
+│   └── WatchlistButton.tsx
+├── lib/
+│   ├── tmdb.ts
+│   ├── llm.ts
+│   ├── search.ts
+│   ├── ranking.ts
+│   ├── validation.ts
+│   └── watchlist.ts
+├── types/
+│   ├── movie.ts
+│   └── search.ts
+├── tests/
+├── public/
+├── .env.example
+├── package.json
+└── README.md
+
+This is a suggested structure, not a requirement to create every file immediately.
+
+## 16. AI Cost and Performance
+
+The system should balance relevance, response time, and operating cost.
+
+Recommended measures:
+
+- Use a cost-effective hosted LLM with structured JSON output.
+- Keep prompts concise.
+- Retrieve a bounded number of candidates.
+- Avoid sending unnecessary TMDB metadata to the model.
+- Use a single ranking request where practical.
+- Separate query interpretation from ranking only when necessary.
+- Cache repeated searches where safe.
+- Add request timeouts and rate limits.
+- Avoid regenerating explanations unnecessarily.
+- Monitor token usage, latency, and failures.
+
+Do not assume that the LLM's own rating of relevance is a calibrated probability.
+
+A numerical relevance score can be used for sorting, but the initial interface does not need to expose it to users.
+
+## 17. Security and Reliability
+
+- Keep all secret API keys on the server.
+- Validate and limit search query length.
+- Validate filter values.
+- Rate-limit expensive requests.
+- Handle TMDB and LLM outages gracefully.
+- Validate model output against a schema.
+- Match ranked IDs to the original retrieved candidate set.
+- Escape untrusted content when rendering.
+- Do not let user input override system instructions.
+- Do not treat LLM-generated factual statements as verified metadata.
+- Follow TMDB attribution, branding, and API usage requirements.
+- Review the applicable LLM provider's data and privacy policies.
+
+Since there are no user accounts, do not collect unnecessary personal information.
+
+## 18. Testing Strategy
+
+### Functional testing
+
+Verify that:
+
+- Natural-language queries can be submitted.
+- Filters are applied correctly.
+- TMDB results are retrieved.
+- Duplicate movies are removed.
+- Results are ranked.
+- AI explanations appear on cards.
+- Watchlist additions and removals work.
+- Watchlists persist after reloading.
+- Empty results are handled correctly.
+- Errors are displayed clearly.
+
+### AI quality testing
+
+Create a test set of representative queries.
+
+Evaluate:
+
+- Whether top-ranked results match the intent.
+- Whether explicit constraints are respected.
+- Whether explanations reflect real movie metadata.
+- Whether rankings remain reasonable for vague queries.
+- Whether different but relevant alternatives appear.
+- Whether unsupported claims or invented movies are prevented.
+
+Compare the system against a simple baseline, such as TMDB results sorted by rating.
+
+### Performance testing
+
+Measure:
+
+- End-to-end search latency.
+- TMDB request latency.
+- LLM request latency.
+- Average cost per search.
+- Error rate.
+- Cache hit rate, if caching is implemented.
+
+## 19. MVP Acceptance Criteria
+
+The MVP is complete when:
+
+1. A user can search using natural language.
+2. The system retrieves candidates through TMDB.
+3. The LLM ranks candidates according to the user's intent.
+4. Search supports all six agreed filter categories.
+5. The results interface displays up to 20 valid movies.
+6. Each displayed movie has an explanation grounded in available metadata.
+7. Invalid model-generated movie IDs are rejected.
+8. The watchlist supports adding, removing, and viewing movies.
+9. The watchlist persists in the browser without an account.
+10. The application handles loading, empty, and error states.
+11. API keys remain server-side.
+12. The application works on desktop and mobile browsers.
+
+## 20. Development Roadmap
+
+### Phase 1 — Foundation
+
+- Set up the Next.js project.
+- Configure TypeScript and styling.
+- Create the main search interface.
+- Set up environment variables.
+- Connect to TMDB.
+
+### Phase 2 — Basic Search
+
+- Implement the search endpoint.
+- Retrieve TMDB candidates.
+- Add filters.
+- Normalize movie data.
+- Display movie cards.
+
+### Phase 3 — AI Integration
+
+- Integrate the hosted LLM API.
+- Implement query interpretation.
+- Implement relevance ranking.
+- Generate explanations.
+- Validate structured output.
+- Add cost and latency safeguards.
+
+### Phase 4 — Watchlist
+
+- Implement local storage.
+- Add and remove saved movies.
+- Create the watchlist page.
+- Handle missing metadata and empty states.
+
+### Phase 5 — Quality and Release
+
+- Test representative queries.
+- Validate filters and ranking.
+- Test API failures and rate limits.
+- Improve responsiveness and accessibility.
+- Review TMDB attribution requirements.
+- Document configuration and deployment.
+
+## 21. Explicitly Out of Scope
+
+Do not build these features in the first version:
+
+- User registration or authentication.
+- Cloud-synchronized watchlists.
+- Social profiles and sharing.
+- Reviews and comments.
+- Personalized recommendations based on long-term history.
+- Streaming playback.
+- Streaming-service availability search.
+- Subscription payments.
+- Imported personal movie databases.
+- Custom machine-learning model training.
+- Complex collaborative recommendation algorithms.
+- Mobile applications.
+
+These features can be considered after the MVP is validated.
+
+## 22. Future Improvements
+
+Potential later additions:
+
+- Conversational refinement of results.
+- Semantic embeddings and vector search.
+- Persistent user preferences.
+- Cross-device watchlist synchronization.
+- Streaming availability by region.
+- More detailed movie pages.
+- Recommendations based on saved movies.
+- Search history.
+- Feedback on recommendations.
+- Improved ranking using explicit user feedback.
+- Localized interface and multilingual search.
+- Alternative LLM providers.
+
+## 23. Key Technical Decisions
+
+| Area | Decision |
+|---|---|
+| Product | AI-powered movie discovery |
+| Platform | Responsive web application |
+| Frontend | Next.js, React, TypeScript |
+| Backend | Next.js server-side API routes |
+| Movie data | TMDB API |
+| Query understanding | Hosted LLM |
+| Candidate retrieval | TMDB search and discovery |
+| Ranking | LLM-based balanced relevance |
+| Initial results | Up to 20 movies |
+| Explanations | AI-generated, grounded in movie metadata |
+| Filters | Genre, year range, rating, language, runtime, movie type |
+| Watchlist | Browser local storage |
+| Authentication | None |
+| Database | No persistent server-side movie database for the MVP |
+| Performance goal | Balance relevance, latency, and cost |
+| Deployment | Any suitable Next.js-compatible hosting platform |
+
+## 24. Final Product Definition
+
+The MVP is a responsive web application where users describe the kind of movie they want to watch in natural language, optionally apply structured filters, and receive up to 20 movies ranked by an LLM using candidate data retrieved from TMDB.
+
+Each result includes movie metadata and a concise, query-specific explanation. Users can save movies to a browser-local watchlist without registering.
+
+The core differentiator is not simply searching a movie database. It is translating subjective interests into relevant movie candidates and explaining why those movies fit.
+
+The initial implementation should prioritize reliable candidate retrieval, grounded AI ranking, clear explanations, low operational complexity, and a working end-to-end user experience.
+save everything to md file so i can download
+
+Data analysis isn't available right now. Do you want to continue without it?
+
+ok
+Ты имеешь в виду, что нужно сохранить план в .md файл без использования Data Analysis?
+
+Yes
+
+Обработка заняла 28s
+Готово! Сохранил полный план проекта в Markdown-файл .md.
+
+📄 Скачать Movie Discovery App — Project Plan.md
+
+Файл содержит архитектуру приложения, интеграцию TMDB и AI, поиск и фильтры, API-примеры, watchlist, тестирование и пошаговый план разработки.
+
+
+movie_discovery_app_project_plan.md
+Документ
