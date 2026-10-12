@@ -4,6 +4,7 @@ import { getTMDBClient } from "@/lib/tmdb";
 import { interpretQuery } from "@/lib/query-parser";
 import { retrieveCandidates } from "@/lib/candidate-retrieval";
 import { rankCandidates } from "@/lib/ranking";
+import { checkRateLimit, extractClientIp } from "@/lib/rate-limit";
 
 const MOCK_MOVIES: Movie[] = [
   {
@@ -49,6 +50,23 @@ export async function GET(): Promise<Response> {
 }
 
 export async function POST(request: Request): Promise<Response> {
+  const clientIp = extractClientIp(request.headers);
+  const rateLimit = checkRateLimit(clientIp);
+
+  if (!rateLimit.allowed) {
+    return Response.json(
+      { error: "Too many requests. Please try again later." },
+      {
+        status: 429,
+        headers: {
+          "X-RateLimit-Limit": String(rateLimit.limit),
+          "X-RateLimit-Remaining": "0",
+          "Retry-After": String(Math.ceil(rateLimit.resetMs / 1000)),
+        },
+      }
+    );
+  }
+
   let body: unknown;
 
   try {
@@ -118,5 +136,11 @@ export async function POST(request: Request): Promise<Response> {
     },
   };
 
-  return Response.json(response, { status: 200 });
+  return Response.json(response, {
+    status: 200,
+    headers: {
+      "X-RateLimit-Limit": String(rateLimit.limit),
+      "X-RateLimit-Remaining": String(rateLimit.remaining),
+    },
+  });
 }
