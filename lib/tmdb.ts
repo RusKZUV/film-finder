@@ -1,4 +1,5 @@
 import type { Movie } from "@/types/movie";
+import { tmdbResponseCache, buildCacheKey } from "./cache";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 
@@ -61,6 +62,12 @@ export class TMDBClient {
   }
 
   async fetchEndpoint<T>(endpoint: string, params: Record<string, string | number> = {}): Promise<T> {
+    const cacheKey = buildCacheKey(endpoint, params);
+    const cached = tmdbResponseCache.get(cacheKey);
+    if (cached) {
+      return cached as T;
+    }
+
     const url = new URL(`${this.baseUrl}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`);
     
     // Support either v3 api_key query param or v4 Bearer token
@@ -87,7 +94,9 @@ export class TMDBClient {
       throw new Error(`TMDB request failed with status ${response.status}: ${response.statusText}`);
     }
 
-    return response.json() as Promise<T>;
+    const data = (await response.json()) as T;
+    tmdbResponseCache.set(cacheKey, data);
+    return data;
   }
 
   async searchMovies(query: string, limit = 20): Promise<Movie[]> {
@@ -116,7 +125,6 @@ export class TMDBClient {
     }
   }
 }
-
 
 let defaultClient: TMDBClient | null = null;
 
