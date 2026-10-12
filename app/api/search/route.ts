@@ -94,7 +94,7 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const { query, filters, limit } = payload as SearchRequestPayload;
+  const { query, filters, limit } = (payload as unknown) as SearchRequestPayload;
   const maxResults = typeof limit === "number" && limit > 0 ? limit : 20;
 
   let results: Movie[] = [];
