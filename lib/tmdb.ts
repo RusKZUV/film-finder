@@ -1,4 +1,38 @@
+import type { Movie } from "@/types/movie";
+
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
+
+// Raw TMDB API shapes
+export interface TMDBMovieResult {
+  id: number;
+  title: string;
+  release_date?: string;
+  vote_average?: number;
+  runtime?: number;
+  poster_path?: string | null;
+  overview?: string;
+  genre_ids?: number[];
+}
+
+export interface TMDBSearchResponse {
+  results: TMDBMovieResult[];
+  total_results: number;
+  total_pages: number;
+}
+
+// Map a raw TMDB result to the internal Movie type
+function mapTMDBMovie(raw: TMDBMovieResult): Movie {
+  return {
+    id: raw.id,
+    title: raw.title ?? "Unknown",
+    releaseDate: raw.release_date ?? "",
+    rating: typeof raw.vote_average === "number" ? raw.vote_average : 0,
+    runtime: typeof raw.runtime === "number" ? raw.runtime : 0,
+    posterPath: raw.poster_path ?? null,
+    overview: raw.overview ?? "",
+    genres: [], // genre_ids → names requires a separate endpoint; left empty here
+  };
+}
 
 export interface TMDBClientConfig {
   apiKey?: string;
@@ -55,7 +89,34 @@ export class TMDBClient {
 
     return response.json() as Promise<T>;
   }
+
+  async searchMovies(query: string, limit = 20): Promise<Movie[]> {
+    try {
+      const data = await this.fetchEndpoint<TMDBSearchResponse>("/search/movie", {
+        query,
+        page: 1,
+      });
+
+      const raw = Array.isArray(data.results) ? data.results : [];
+
+      // Map, deduplicate by id, cap at limit
+      const seen = new Set<number>();
+      const movies: Movie[] = [];
+      for (const item of raw) {
+        if (seen.has(item.id)) continue;
+        seen.add(item.id);
+        movies.push(mapTMDBMovie(item));
+        if (movies.length >= limit) break;
+      }
+
+      return movies;
+    } catch {
+      // Network errors or TMDB 5xx — return empty list
+      return [];
+    }
+  }
 }
+
 
 let defaultClient: TMDBClient | null = null;
 
