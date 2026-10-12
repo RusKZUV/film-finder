@@ -4,12 +4,14 @@ import type { Movie } from "@/types/movie";
 
 interface MovieCardProps {
   movie: Movie;
+  matchExplanation?: string;
 }
 
 const TMDB_IMAGE_BASE = "https://image.tmdb.org/t/p/w500";
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default function MovieCard({ movie, matchExplanation }: MovieCardProps) {
   const { title, releaseDate, posterPath, rating, overview, genres } = movie;
+  const effectiveExplanation = matchExplanation || movie.matchExplanation;
 
   const year = releaseDate ? releaseDate.slice(0, 4) : "";
   const imageUrl = posterPath ? `${TMDB_IMAGE_BASE}${posterPath}` : null;
@@ -88,6 +90,19 @@ export default function MovieCard({ movie }: MovieCardProps) {
               </li>
             ))}
           </ul>
+        )}
+
+        {/* AI Match Explanation Callout */}
+        {effectiveExplanation && effectiveExplanation.trim().length > 0 && (
+          <div
+            className="p-2.5 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/50 text-amber-900 dark:text-amber-200 text-xs leading-relaxed"
+            aria-label="Why it matches"
+          >
+            <span className="font-semibold block text-[11px] uppercase tracking-wider text-amber-700 dark:text-amber-400 mb-0.5">
+              Why it matches
+            </span>
+            <p className="line-clamp-3">{effectiveExplanation}</p>
+          </div>
         )}
 
         {truncatedOverview && (

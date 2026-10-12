@@ -90,6 +90,24 @@ describe("components/MovieCard.tsx: structure and attributes", () => {
       "Should have hover/transition styling"
     );
   });
+
+  it("renders AI match explanation callout when provided", () => {
+    assert.ok(
+      cardSrc.includes("matchExplanation"),
+      "MovieCard should support matchExplanation prop/field"
+    );
+    assert.ok(
+      cardSrc.includes("Why it matches"),
+      "Should render styled callout with header for explanation"
+    );
+  });
+
+  it("gracefully hides match explanation when empty or absent", () => {
+    assert.ok(
+      cardSrc.includes("effectiveExplanation &&") || cardSrc.includes("matchExplanation &&"),
+      "Should conditionally render explanation block only when text exists"
+    );
+  });
 });
 
 describe("components/MovieGrid.tsx: structure and layout", () => {
