@@ -1,6 +1,8 @@
 import type { SearchRequestPayload } from "@/types/search";
 import type { Movie, SearchResponse } from "@/types/movie";
 import { getTMDBClient } from "@/lib/tmdb";
+import { interpretQuery } from "@/lib/query-parser";
+import { retrieveCandidates } from "@/lib/candidate-retrieval";
 
 const MOCK_MOVIES: Movie[] = [
   {
@@ -73,21 +75,28 @@ export async function POST(request: Request): Promise<Response> {
     );
   }
 
-  const { query, limit } = payload as SearchRequestPayload;
+  const { query, filters, limit } = payload as SearchRequestPayload;
   const maxResults = typeof limit === "number" && limit > 0 ? limit : 20;
 
   let results: Movie[] = [];
   let source = "mock";
+  let querySummary = `Showing results for "${query.trim()}"`;
 
-  // Attempt live TMDB fetch; fall back to mock data if API key absent or network fails
   if (process.env.TMDB_API_KEY) {
     try {
-      const client = getTMDBClient();
-      results = await client.searchMovies(query.trim(), maxResults);
-      source = "tmdb";
+      const tmdbClient = getTMDBClient();
+      const plan = await interpretQuery(query, filters);
+      querySummary = plan.semanticSummary || querySummary;
+
+      results = await retrieveCandidates(tmdbClient, plan, maxResults);
+      source = "tmdb-discover";
+
+      if (results.length === 0) {
+        // Broad search fallback
+        results = await tmdbClient.searchMovies(query.trim(), maxResults);
+        source = "tmdb-text";
+      }
     } catch {
-      // Graceful fallback — TMDB client constructor throws when key missing,
-      // but we also guard network-level failures here.
       results = MOCK_MOVIES.slice(0, maxResults);
     }
   } else {
@@ -98,7 +107,7 @@ export async function POST(request: Request): Promise<Response> {
     results,
     meta: {
       count: results.length,
-      querySummary: `Showing ${results.length} result(s) for "${query.trim()}" [source: ${source}]`,
+      querySummary: `${querySummary} [source: ${source}]`,
     },
   };
 
